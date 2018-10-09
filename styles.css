@@ -1,0 +1,80 @@
+:root {
+  --color-primary: 36353D;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ul, li {
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 100%;
+  margin-top: 32px;
+  border-radius: 12px;
+  border: 1px solid lightgray;
+  overflow: hidden;
+}
+
+#refresh {
+  margin-top: 32px;
+  margin-right: auto;
+  margin-left: 8px;
+  background-color: var(--color-primary);
+  border: none;
+}
+
+h1 {
+  padding: 16px;
+  color: white;
+  background-color: var(--color-primary);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* USER ITEM STYLING */
+.item-wrapper {
+  width: 100%;
+  height: 65px;
+  padding: 8px;
+  align-items: center;
+  border-bottom: 1px solid lightgray;
+}
+
+.item-wrapper:hover {
+  background: #fafafa;
+}
+
+.item-infos-wrapper {
+  margin-left: 8px;
+  justify-content: center;
+}
+
+.item-action {
+  margin-left: auto;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
