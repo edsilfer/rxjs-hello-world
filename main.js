@@ -11,7 +11,8 @@ function main() {
     .mergeMap(url => {
       console.log(`performing request to: ${url}`)
       return Rx.Observable.from(jQuery.getJSON(url))
-    });
+    })
+    .publishLast();
 
   let refreshStream = Rx.Observable.fromEvent(refreshButton, 'click')
     .startWith('click')
@@ -33,6 +34,8 @@ function main() {
       user.remove();
       userRemovedStream.next('');
     });
+
+  requestStream.connect();
 }
 
 function randomNumber(limit = 500) {
