@@ -31,7 +31,7 @@ function main() {
     .mergeMap(user => Rx.Observable.fromEvent($(`#close-${user.login}`), 'click'))
     .map(event => event.target.parentNode)
     .subscribe(user => {
-      user.remove();
+      $(user).addClass('effect');
       userRemovedStream.next('');
     });
 
@@ -44,15 +44,15 @@ function randomNumber(limit = 500) {
 
 function createItem(user) {
   return $(`
-    <li id="user-${user.login}" class="item-wrapper horizontal" >
+    <li id="user-${user.login}" class="item-wrapper" >
       <img src="${user.avatar_url}" class="rounded-circle" width="50" height="50">
 
-      <div class="item-infos-wrapper vertical">
-        <span class="font-weight-bold">${user.login}</span>
-        <span class="font-weight-normal">What can we put in here?</span>
+      <div class="item-infos-wrapper">
+        <h2 class="font-weight-bold">${user.login}</h2>
+        <p class="font-weight-normal">What can we put in here?</p>
       </div>
 
-      <button id="close-${user.login}" type="button" class="btn btn-outline-danger btn-sm item-action">remove</button>
+      <button id="close-${user.login}" type="button" class="btn btn-outline-danger btn-sm item-action">remove<i class="material-icons">highlight_off</i></button>
     </li>
   `);
 }

@@ -1,63 +1,51 @@
 :root {
-  --color-primary: 36353D;
+  --color-primary: #36353D;
 }
 
 html, body {
   margin: 0;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  font-size: 16px;
 }
 
-ul, li {
-  text-decoration: none;
-  margin: 0;
+main{
+  width: 50%;
+  margin: auto;
+}
+
+ul, h1, h2, p {
   padding: 0;
+  margin: 0;
 }
 
-.centered {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+h2{
+  font-size: 1.1rem;
 }
 
-.horizontal {
-  display: flex;
-  flex-direction: row;
-}
-
-.vertical {
-  display: flex;
-  flex-direction: column;
-}
-
-.container {
-  width: 100%;
-  margin-top: 32px;
-  border-radius: 12px;
-  border: 1px solid lightgray;
-  overflow: hidden;
-}
-
-#refresh {
-  margin-top: 32px;
-  margin-right: auto;
-  margin-left: 8px;
-  background-color: var(--color-primary);
-  border: none;
-}
-
-h1 {
+header {
   padding: 16px;
   color: white;
   background-color: var(--color-primary);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.container {
+  margin-top: 32px;
+  padding: 0;
+  border-radius: 12px;
+  border: 1px solid lightgray;
+  overflow: hidden;
+}
+
+.refresh-button {
+  margin: 1rem;
+  background-color: var(--color-primary);
+  border: none;
+}
+
 /* USER ITEM STYLING */
 .item-wrapper {
-  width: 100%;
+  display: flex;
   height: 65px;
   padding: 8px;
   align-items: center;
@@ -70,11 +58,30 @@ h1 {
 
 .item-infos-wrapper {
   margin-left: 8px;
-  justify-content: center;
 }
 
 .item-action {
   margin-left: auto;
   color: var(--color-primary);
   border-color: var(--color-primary);
+
 }
+
+.material-icons {
+  vertical-align: middle;
+  font-size: 1.2rem;
+  margin-left: 4px;
+
+}
+
+@keyframes fade{
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+
+.effect {
+  animation-name: fade;
+  animation-duration: 1s;
+}
+
+
