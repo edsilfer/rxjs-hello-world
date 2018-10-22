@@ -1,77 +1,93 @@
-const GITHUB_API = 'https://api.github.com/users';
+const GITHUB_API = "https://api.github.com/users";
 const MAX_SUGGESTIONS = 3;
-var SUGGESTED_USERS = [];
+const ANIMATION_DURATION = 250;
+
+var suggested = [];
 
 function main() {
-  let users = $('#users');
-  let refreshButton = $('#refresh');
-  let userRemovedStream = new Rx.Subject();
+  let users = $("#users");
 
-  let requestStream = Rx.Observable
-    .of(`${GITHUB_API}?since=${randomNumber()}`)
-    .mergeMap(url => {
-      SUGGESTED_USERS = [];
-      return Rx.Observable.from(jQuery.getJSON(url))
+  let suggestionRemovedStream = new Rx.Subject();
+  let requestSuggestionsStream = createRequestStream();
+  let refreshSuggestionsStream = createRefreshSuggestionsStream(
+    users,
+    requestSuggestionsStream
+  );
+  let randomSuggestionStream = createRandomSuggestionStream(
+    suggestionRemovedStream,
+    requestSuggestionsStream
+  );
+  let addSuggestionStream = createAddSuggestionStream(
+    requestSuggestionsStream,
+    refreshSuggestionsStream,
+    randomSuggestionStream,
+    users
+  );
+
+  addSuggestionStream
+    .delay(10)
+    .do(user => {
+      $(`#user-${user.login}`).addClass("show");
     })
+    .mergeMap(user =>
+      Rx.Observable.fromEvent($(`#close-${user.login}`), "click")
+    )
+    .map(event => event.target.parentNode)
+    .do(user => $(user).removeClass("show"))
+    .delay(ANIMATION_DURATION)
+    .do(user => user.remove())
+    .subscribe(_ => suggestionRemovedStream.next(""));
+
+  requestSuggestionsStream.connect();
+}
+
+function createRequestStream() {
+  return Rx.Observable.of(`${GITHUB_API}?since=${randomNumber()}`)
+    .do(_ => (suggested = []))
+    .mergeMap(url => Rx.Observable.from(jQuery.getJSON(url)))
     .publishLast();
+}
 
-  let refreshStream = Rx.Observable.fromEvent(refreshButton, 'click')
-    .startWith('click')
+function createRefreshSuggestionsStream(users, requestStream) {
+  return Rx.Observable.fromEvent($("#refresh"), "click")
+    .startWith("click")
     .do(_ => users.empty())
-    .combineLatest(requestStream, (_, users) => users.slice(randomNumber(users.length)));
+    .combineLatest(requestStream, (_, users) =>
+      users.slice(randomNumber(users.length))
+    );
+}
 
-  let randomUserStream = userRemovedStream
-    .combineLatest(requestStream, (_, users) => {
-      let randomUser = users[randomNumber(users.length)];
-      let maxAttempts = 100;
-      let count = 0;
-      while (SUGGESTED_USERS.indexOf(randomUser.login) > -1 && count <= maxAttempts) {
-        randomUser = users[randomNumber(users.length)];
-        count++;
-      }
-      return randomUser;
-    });
+function createRandomSuggestionStream(suggestionRemovedStream, requestStream) {
+  return suggestionRemovedStream.combineLatest(requestStream, (_, users) => {
+    let randomSuggestion = users[randomNumber(users.length)];
+    let maxAttempts = 100;
+    let count = 0;
+    while (
+      suggested.indexOf(randomSuggestion.login) > -1 &&
+      count <= maxAttempts
+    ) {
+      randomSuggestion = users[randomNumber(users.length)];
+      count++;
+    }
+    return randomSuggestion;
+  });
+}
 
-  requestStream
+function createAddSuggestionStream(
+  requestStream,
+  refreshStream,
+  randomSuggestionStream,
+  users
+) {
+  return requestStream
     .merge(refreshStream)
     .flatMap(users => users)
-    .merge(randomUserStream)
+    .merge(randomSuggestionStream)
     .filter(_ => users.children().length < MAX_SUGGESTIONS)
-    .do(user => { users.append(createItem(user)); })
-    .delay(10)
-    .do(user => { $(`#user-${user.login}`).addClass('show') })
-    .mergeMap(user => Rx.Observable.fromEvent($(`#close-${user.login}`), 'click'))
-    .map(event => event.target.parentNode)
-    .subscribe(user => {
-      $(user).removeClass('show');
-      setTimeout(() => {
-        user.remove();
-        userRemovedStream.next('');
-      }, 250);
+    .do(user => {
+      suggested.push(user.login);
+      users.append(createSuggestion(user));
     });
-
-  requestStream.connect();
-}
-
-function randomNumber(limit = 500) {
-  return Math.floor(Math.random() * limit);
-}
-
-function createItem(user) {
-  SUGGESTED_USERS.push(user.login);
-  return $(`
-    <li id="user-${user.login}">
-      <img src="${user.avatar_url}" class="rounded-circle" width="50" height="50">
-
-      <div class="item-infos-wrapper">
-        <h2 class="font-weight-bold">${user.login}</h2>
-        <p class="font-weight-normal">What can we put in here?</p>
-      </div>
-
-      <button id="close-${user.login}" type="button" class="btn btn-outline-danger btn-sm">remove<i class="material-icons">highlight_off</i></button>
-    </li>
-  `);
 }
 
 main();
-
