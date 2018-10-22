@@ -1,20 +1,17 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic);
 blockquote{
   font-size: 1em;
-  font-family:Open Sans;
-  font-style:italic;
+  font-style: italic;
   color: #555555;
-  padding:1.2em 30px 1.2em 75px;
   border-left:8px solid var(--color-primary);
   line-height:1.6;
+  padding:1.2em 30px 1.2em 75px;
   position: relative;
   background:#f9f9f9;
 }
 
 blockquote::before{
-  font-family:Arial;
   content: "\201C";
-  color:var(--color-primary);
+  color: var(--color-primary);
   font-size:4em;
   position: absolute;
   left: 10px;
@@ -28,6 +25,6 @@ blockquote::after{
 .author{
   color:#333333;
   font-style: normal;
-  font-weight: bold;
-  margin-top:1em;
+  font-weight: 700;
+  margin-top: 1em;
 }

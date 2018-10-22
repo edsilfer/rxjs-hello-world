@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700');
 :root {
   --color-primary: #36353D;
 }
@@ -5,18 +6,34 @@
 html, body {
   margin: 0;
   height: 100%;
-  font-size: 18px;
-  font-family: "Georgia","Cambria","Times New Roman",Times,serif;
-  line-height: 1.6;
+  font-size: 21px;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.5;
 }
 
 h1, h2{
   font-size: 1.2rem;
   font-family: sans-serif;
+  font-weight: 700;
+}
+
+h3 {
+  color: #8b8b8b;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+p {
+  font-weight: 300;
+}
+
+a {
+  color:inherit;
+  text-decoration: underline;
 }
 
 header {
-  width: 60%;
+  width: 75%;
   margin: auto;
 }
 
@@ -34,8 +51,7 @@ main {
 }
 
 main h2 {
-  margin-top: 2rem;
-  font-weight: 700;
+  margin-top: 1.8rem;
 }
 
 main h2:first-child {

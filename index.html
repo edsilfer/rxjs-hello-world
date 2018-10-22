@@ -20,7 +20,6 @@
   </header>
   <main>
     <section class="intro">
-      <h2>Disclaimer</h2>
       <blockquote>
         <p>RxJS is a library for <a href="https://en.wikipedia.org/wiki/Reactive_programming">reactive programming</a> using Observables, to make it easier to compose asynchronous or callback-based code. This project is a rewrite of Reactive-Extensions/RxJS with better performance, better modularity, better debuggable call stacks, while staying mostly backwards compatible, with some breaking changes that reduce the API surface</p>
         <p class="author"><i><a href="https://rxjs-dev.firebaseapp.com/"><i>Check project page.</i></a></i></p>
@@ -28,7 +27,7 @@
       <h2>Purpose</h2>
       <p>The goal of this post is to describe the learnings involved in the process of creating a widget using <a href="https://rxjs-dev.firebaseapp.com/">RxJS</a>. I've decided to make this example in order to increase my knowledge of <a href="https://en.wikipedia.org/wiki/Reactive_programming">reactive programming</a>. Even though my current area of acting is Java, the methods and strategies here applied can be easily migrated to any reactive implementation, therefore I encourage you to continue reading this post and try these exercises yourself.</p>
       <h2>Goals</h2>
-      <p>The proposed exercise is based on post <b><a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754">The introduction to Reactive Programming you've been missing</a></b> written by <a href="https://twitter.com/andrestaltz">Andre Staltz</a>. The idea is to build a Twitter like widget that suggests users to follow. As Twitter closed its API to unauthorized public, <a href="https://developer.github.com/v3/">GitHub API</a> will be used in the place. The requirements are:</p>
+      <p>The proposed exercise is based on post <a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754">The introduction to Reactive Programming you've been missing</a> written by <a href="https://twitter.com/andrestaltz">Andre Staltz</a>. The idea is to build a Twitter like widget that suggests users to follow. As Twitter closed its API to unauthorized public, <a href="https://developer.github.com/v3/">GitHub API</a> will be used in the place. The requirements are:</p>
       <ul>
         <li>There must be a constant in the code that allows setting the number of accounts to suggest;</li>
         <li>Each suggestion must display a "remove" button that the user can press if he doesn't like the suggestion;</li>
@@ -37,19 +36,19 @@
         <li>As GitHub API returns 100 users per request, no call should be made until the first 100 users have been all suggested/consumed;</li>
       </ul>
     </section>
-    
+
     <section class="showcase">
       <h2>Showcase</h2>
       <div class="container">
         <ul id="users"></ul>
-        <button id="refresh" type="button" class="btn btn-primary refresh-button">Refresh<i class="material-icons">refresh</i></button>
+        <button id="refresh" type="button" class="btn btn-primary refresh-button">Refresh</button>
       </div>
       <p><i>Sample widget build as result of this exercise</i></p>
     </section>
-    
+
     <section class="development">
       <h2>Development</h2>
-      <p>The step-by-step development can be found on <b><a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754">The introduction to Reactive Programming you've been missing</a></b>. This post will focus on a few particularities that I've found while implementing it, mostly two:</p>
+      <p>The step-by-step development can be found on <a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754">The introduction to Reactive Programming you've been missing</a>. This post will focus on a few particularities that I've found while implementing it, mostly two:</p>
       <ul>
         <li>How to handle the creation of suggestions without <i>breaking the pipe</i>?</li>
         <li>How to add a new suggestion after removing an old one?</li>
@@ -69,9 +68,10 @@
         <li>subscribe for the remove event;</li>
         <li>issue a new item on user removed stream;</li>
       </ul>
-      <h2>Creating suggestiong without breaking the pipe</h2>
+      <h3>Creating suggestiong without breaking the pipe</h3>
       <p>In order to resolve this problem, I've converted the pipeline into a stream of clicks from the corresponding remove button - <a href="https://www.learnrxjs.io/operators/transformation/mergemap.html">mergeMap</a> is the operator for that - right after adding a suggestion to the list. To handle the event selector, a bit of string processing was done: we add the name of the user, which is unique, as the id of the li and the button, that way we can handle the removal of it later on.</p>
-      <h2>Adding new suggestions</h2>
+
+      <h3>Adding new suggestions</h3>
       <p>For the second problem we have created the user removed stream, emitting a new value into it right after removing a list item. A key operator was used in order to keep the system stateless: <a href="https://www.learnrxjs.io/operators/combination/combinelatest.html">combineLatest</a>. The combineLatest operator buffers the latest values emitted by both streams, allowing us to specify a callback to determine which value to emit next.</p>
       <p>With the elements aforementioned, we combined the request with refresh and user removed streams in order to reuse the results of the first call to GitHub API. There is a trick part on doing that though, we need to specify the request stream to be multicasting, otherwise the stream Observable will remain cold and the stream will be invoked at every time it is passed to combine latest - this part was kindly explained to my alter ego by user <a href="https://stackoverflow.com/users/2521865/paulpdaniels">@paulpdaniels</a> in this <a href="https://stackoverflow.com/questions/52718262/why-is-initial-stream-being-triggered-again-after-combinelatest-and-merge-in-thi/52723645#52723645">StackOverflow question.</a></p>
     </section>
