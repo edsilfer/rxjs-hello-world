@@ -12,8 +12,10 @@ function createSuggestion(user) {
         <p>Add user bio in here...</p>
       </div>
 
-      <a href="https://github.com/${user.login}">GitHub</a>
-      <a id="close-${user.login}">remove</a>
+      <div class="item-button-container">
+        <a class="item-button" href="https://github.com/${user.login}">GitHub</a>
+        <button class="item-button remove" id="close-${user.login}">remove</button>
+      </div>
     </li>
   `);
 }

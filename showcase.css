@@ -13,14 +13,32 @@
 }
 
 .refresh-button {
-    margin: 1rem;
+    margin: 14px;
+    font-size: 12px;
+    color: white;
     background-color: var(--color-primary);
+    padding: 8px;
     border: none;
+    border-radius: 5px;
+}
+
+.rounded-circle {
+    border-radius: 50%;
+}
+
+.container{
+    margin: auto;
+    font-size: 14px;
+}
+
+.container h2{
+    font-size: 16px;
 }
 
 
 .container li{
     display: flex;
+    justify-content: space-between;
     background: white;
     height: 0;
     padding: 0px;
@@ -31,26 +49,44 @@
 }
 
 .container li.show {
-    padding: 8px;
-    height: 65px;
+    padding: 8px 16px;
+    height: 55px;
 }
 
-li:hover {
+.container li:hover {
     background: #fafafa;
 }
 
 .item-infos-wrapper {
     margin-left: 8px;
+    flex-grow: 2;
 }
 
-li button {
-    margin-left: auto;
-    color: var(--color-primary);
-    border-color: var(--color-primary);
-}
-
-.material-icons {
-    vertical-align: middle;
-    font-size: 1.2rem;
+.item-button {
+    text-decoration: none;
+    padding: 4px;
+    border-radius: 4px;
     margin-left: 4px;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+}
+
+.item-button:hover {
+    color: white;
+    background-color: var(--color-primary);
+}
+
+.remove {
+    color: red;
+    border-color: red;
+}
+
+.remove:hover {
+    background-color: red;
+}
+
+.subtitle{
+    text-align: center;
+    font-size: 0.80em;
+    font-style: italic;
 }
