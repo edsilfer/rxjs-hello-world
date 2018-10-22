@@ -7,20 +7,51 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="blockquote.css">
   <title>RxJS</title>
 </head>
 <body>
   <header>
-    <h1>Sample RxJS with Github API</h1>
+    <img src="https://cdn-images-1.medium.com/max/1600/1*sXrpvkWUPm1K9zGKhI3MlA.png" width="50" height="50" />
+    <h2>Sample RxJS with Github API</h2>
   </header>
-  
+
   <main>
-    <div class="container">
+    <section class="intro">
+      <h3>Disclaimer</h3>
+      <blockquote>
+        RxJS is a library for reactive programming using Observables, to make it easier to compose asynchronous or
+        callback-based code. This project is a rewrite of Reactive-Extensions/RxJS with better performance, better modularity,
+        better debuggable call stacks, while staying mostly backwards compatible, with some breaking changes that reduce the
+        API surface
+        <span class="author"><i><a href="https://rxjs-dev.firebaseapp.com/"><i>Check project page.</i></a></i></span>
+      </blockquote>
+
+      <h3>Proposal</h3>
+      <p>
+        This project was developed in order to exercise the basic principles of RxJS in a real world example. The execise proposes
+        building a widget that queries GitHub API, retrieving a given number of users. Using reactive programming, we should be able
+        to offer N users from the list of 100 that we've got as result. The users might remove a given suggestion. if that's the case,
+        another user, taken from the list obtained from the first request, should take its place. Check the resul below:
+      </p>
+    </section>
+
+    <section class="showcase">
       <ul id="users"></ul>
       <button id="refresh" type="button" class="btn btn-primary refresh-button">Refresh<i class="material-icons">refresh</i></button>
-    </div>
+    </section>
+    <span><i>Sample widget build as result of this exercise</i></span>
+
+    <br />
+
+    <section class="development">
+      <h3>Development</h3>
+      <p>
+        WIP of development section
+      </p>
+    </section>
   </main>
-  
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.4.3/Rx.js"></script>
   <script src="main.js"></script>
