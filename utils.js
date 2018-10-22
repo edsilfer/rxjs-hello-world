@@ -14,7 +14,7 @@ function createSuggestion(user) {
 
       <div class="item-button-container">
         <a class="item-button" href="https://github.com/${user.login}">GitHub</a>
-        <button class="item-button remove" id="close-${user.login}">remove</button>
+        <a class="item-button remove" id="close-${user.login}">remove</a>
       </div>
     </li>
   `);

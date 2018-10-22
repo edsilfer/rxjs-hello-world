@@ -28,13 +28,16 @@ p, li {
 }
 
 a {
-  color:inherit;
+  color: inherit;
   text-decoration: underline;
 }
 
 header {
-  width: 75%;
+  width: 60%;
   margin: auto;
+  /* TODO: FIX */
+  /* position: fixed;
+  top: 0; */
 }
 
 header img, header h1 {

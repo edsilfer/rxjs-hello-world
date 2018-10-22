@@ -32,7 +32,7 @@ function main() {
     .mergeMap(user =>
       Rx.Observable.fromEvent($(`#close-${user.login}`), "click")
     )
-    .map(event => event.target.parentNode)
+    .map(event => event.target.parentNode.parentNode)
     .do(user => $(user).removeClass("show"))
     .delay(ANIMATION_DURATION)
     .do(user => user.remove())
