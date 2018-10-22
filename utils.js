@@ -8,11 +8,12 @@ function createSuggestion(user) {
       <img src="${user.avatar_url}" class="rounded-circle" width="50" height="50">
 
       <div class="item-infos-wrapper">
-        <h2 class="font-weight-bold">${user.login}</h2>
-        <p class="font-weight-normal">What can we put in here?</p>
+        <h2>${user.login}</h2>
+        <p>Add user bio in here...</p>
       </div>
 
-      <button id="close-${user.login}" type="button" class="btn btn-outline-danger btn-sm">remove</button>
+      <a href="https://github.com/${user.login}">GitHub</a>
+      <a id="close-${user.login}">remove</a>
     </li>
   `);
 }
