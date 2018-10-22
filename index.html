@@ -17,7 +17,6 @@
     <img src="https://cdn-images-1.medium.com/max/1600/1*sXrpvkWUPm1K9zGKhI3MlA.png" width="50" height="50" />
     <h2>Sample RxJS with Github API</h2>
   </header>
-
   <main>
     <section class="intro">
       <h3>Disclaimer</h3>
@@ -29,33 +28,31 @@
         compatible, with some breaking changes that reduce the API surface
         <span class="author"><i><a href="https://rxjs-dev.firebaseapp.com/"><i>Check project page.</i></a></i></span>
       </blockquote>
-
       <br />
-
       <h3>Purpose</h3>
       <p>
         The goal of this post is to describe the learnings involved in the process of creating a widget using <a href="https://rxjs-dev.firebaseapp.com/">RxJS</a>.
         I've decided to make this example in order to increase my knowledge of <a href="https://en.wikipedia.org/wiki/Reactive_programming">reactive
           programming</a>.
-        Even though my current area of acting is Java, the methods and strategies here applied can be easily be
-        migrated to any reactive implementation, therefore I encourage you to continue to read this post and try these
+        Even though my current area of acting is Java, the methods and strategies here applied can be easily
+        migrated to any reactive implementation, therefore I encourage you to continue reading this post and try these
         exercises yourself.
       </p>
-
       <br />
-
       <h3>Goals</h3>
       <p>
-        The proposed exercise is based on this post by <b><a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754">The
+        The proposed exercise is based on post <b><a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754">The
             introduction to Reactive Programming you've been missing</a></b> written by <a href="https://twitter.com/andrestaltz">Andre
           Staltz</a>.
-        The idea is to build a Twitter like widget that suggests users to follow. As Twitter closed its API, GitHub
+        The idea is to build a Twitter like widget that suggests users to follow. As Twitter closed its API to
+        unauthorized public, <a href="https://developer.github.com/v3/">GitHub API</a>
         will be used in the place. The requirements are:
         <ul>
           <li>There must be a constant in the code that allows setting the number of accounts to suggest;</li>
-          <li>Each account will display a "remove" button that user might press if he doesn't like the suggestion;</li>
-          <li>Whenever user clicks "remove", the suggestion must be removed from the list and a new one should take its
-            place;</li>
+          <li>Each suggestion must display a "remove" button that the user can press if he doesn't like the suggestion;</li>
+          <li>Whenever user clicks "remove", the suggestion will be removed from the list and a new one will take its
+            place;
+          </li>
           <li>A refresh button must be provided in order to drop all current suggestions and provide new ones;</li>
           <li>As GitHub API returns 100 users per request, no call should be made until the first 100 users have been
             all suggested/consumed;
@@ -63,49 +60,41 @@
         </ul>
       </p>
     </section>
-
     <br />
-
     <h3>Showcase</h3>
     <section class="showcase">
       <ul id="users"></ul>
       <button id="refresh" type="button" class="btn btn-primary refresh-button">Refresh<i class="material-icons">refresh</i></button>
     </section>
-
     <br />
-
     <p><i>Sample widget build as result of this exercise</i></p>
-
     <br />
-
     <section class="development">
       <h3>Development</h3>
       <p>
-        The step-by-step development can be found in fulano-de-tal-post, however, the implementation here provided
-        diverges of it in some points. While following the instructions, I've found some difficulties. They are:
+        The step-by-step development can be found on <b><a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754">The
+            introduction to Reactive Programming you've been missing</a></b>. This post will focus on a few
+        particularities that I've found while implementing it, mostly two:
         <ul>
-          <li>How to handle the creation of the suggestions without "breaking the pipe"?</li>
-          <li>How to handle a new suggestion after removing a new one?</li>
+          <li>How to handle the creation of suggestions without <i>breaking the pipe</i>?</li>
+          <li>How to add a new suggestion after removing an old one?</li>
         </ul>
       </p>
-
       <br />
-
       <p>
-        Before explained how to deal with these problems, let's make a quick review. We have four streams composing
+        Before I explain how I've dealt with these problems, let's make a quick review implementation. We have four
+        streams composing
         this project:
         <ul>
           <li><b>request:</b> performs a request to GitHub API and emits an Array of users;</li>
-          <li><b>refresh:</b> combination request with refresh click streams;</li>
+          <li><b>refresh:</b> combination of request and "refresh clicked" streams;</li>
           <li><b>random user:</b> a combination of user removed and request streams;</li>
           <li><b>user removed:</b> stream of values indicating that a suggestion was removed;</li>
         </ul>
       </p>
-
       <br />
-
       <p>
-        The final consumer for all of the streams is responsible for:
+        <b>NOTE: </b>The final consumer for all of the streams is responsible for:
         <ul>
           <li>limit the amount of suggestions to process;</li>
           <li>create the suggestion item;</li>
@@ -114,37 +103,38 @@
           <li>issue a new item on user removed stream;</li>
         </ul>
       </p>
-
       <br />
-
       <p>
-        In order to resolve the first problem we converted the pipeline into a stream of clicks in the corresponding
-        "remove" button, right after adding a suggestion to the list. To handle the event selector, a bit of string
+        <h3>Creating suggestiong without breaking the pipe</h3>
+        In order to resolve this problem, I've converted the pipeline into a stream of clicks from the corresponding
+        remove button - <a href="https://www.learnrxjs.io/operators/transformation/mergemap.html">mergeMap</a> is the
+        operator for that - right after adding a suggestion to the list. To handle the event selector, a bit of string
         processing was done: we add the name
-        of the user, which is unique, as the id of the li, that way we can handle the removal of it later on.
+        of the user, which is unique, as the id of the li and the button, that way we can handle the removal of it
+        later on.
       </p>
-
       <br />
-
       <p>
-        For the second problem we have created the user removed stream, emitting a new value into right after removing
-        a list item. A key operator was used in order to keep the system stateless: combineLatest. The combineLatest
+        <h3>Adding new suggestions</h3>
+        For the second problem we have created the user removed stream, emitting a new value into it right after
+        removing
+        a list item. A key operator was used in order to keep the system stateless: <a href="https://www.learnrxjs.io/operators/combination/combinelatest.html">combineLatest</a>.
+        The combineLatest
         operator buffers the latest values
         emitted by both streams, allowing us to specify a callback to determine which value to emit next.
       </p>
-
       <br />
-
       <p>
         With the elements aforementioned, we combined the request with refresh and user removed streams in order to
         reuse the results of the first call to GitHub API. There is a trick part on doing that though, we need to
         specify the request stream to be multicasting,
         otherwise the stream Observable will remain cold and the stream will be invoked at every time it is passed to
-        combine latest.
+        combine latest - this part was kindly explained to my alter ego by user <a href="https://stackoverflow.com/users/2521865/paulpdaniels">@paulpdaniels</a>
+        in this <a href="https://stackoverflow.com/questions/52718262/why-is-initial-stream-being-triggered-again-after-combinelatest-and-merge-in-thi/52723645#52723645">StackOverflow
+          question.</a>
       </p>
     </section>
   </main>
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.4.3/Rx.js"></script>
   <script src="main.js"></script>
