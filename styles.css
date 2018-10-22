@@ -44,15 +44,23 @@ header {
 }
 
 /* USER ITEM STYLING */
-.item-wrapper {
+.container li{
   display: flex;
-  height: 65px;
-  padding: 8px;
+  background: white;
+  height: 0;
+  padding: 0px;
+  overflow: hidden;
   align-items: center;
   border-bottom: 1px solid lightgray;
+  transition: all 0.25s ease-out;
 }
 
-.item-wrapper:hover {
+.container li.show {
+  padding: 8px;
+  height: 65px;
+}
+
+li:hover {
   background: #fafafa;
 }
 
@@ -60,28 +68,18 @@ header {
   margin-left: 8px;
 }
 
-.item-action {
+li button {
   margin-left: auto;
   color: var(--color-primary);
   border-color: var(--color-primary);
-
 }
 
 .material-icons {
   vertical-align: middle;
   font-size: 1.2rem;
   margin-left: 4px;
-
 }
 
-@keyframes fade{
-  from {opacity: 1;}
-  to {opacity: 0;}
-}
 
-.effect {
-  animation-name: fade;
-  animation-duration: 1s;
-}
 
 
