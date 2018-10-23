@@ -9,6 +9,7 @@ html, body {
   font-size: 21px;
   font-family: 'Roboto', sans-serif;
   line-height: 1.5;
+  font-weight: 300;
 }
 
 h1, h2{
@@ -23,21 +24,22 @@ h3 {
   font-weight: 700;
 }
 
-p, li {
-  font-weight: 300;
-}
-
 a {
   color: inherit;
   text-decoration: underline;
 }
 
 header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: +1;
+  background-color: white;
+}
+
+.header-content {
   width: 60%;
   margin: auto;
-  /* TODO: FIX */
-  /* position: fixed;
-  top: 0; */
 }
 
 header img, header h1 {

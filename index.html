@@ -15,8 +15,10 @@
 
 <body>
   <header>
-    <img src="https://cdn-images-1.medium.com/max/1600/1*sXrpvkWUPm1K9zGKhI3MlA.png" width="50" height="50" />
-    <h1>Sample RxJS with Github API</h1>
+    <div class="header-content">
+      <img src="https://cdn-images-1.medium.com/max/1600/1*sXrpvkWUPm1K9zGKhI3MlA.png" width="50" height="50" />
+      <h1>Sample RxJS with Github API</h1>
+    </div>
   </header>
   <main>
     <section class="intro">
@@ -36,7 +38,7 @@
         <li>As GitHub API returns 100 users per request, no call should be made until the first 100 users have been all suggested/consumed;</li>
       </ul>
     </section>
-
+    
     <section class="showcase">
       <h2>Showcase</h2>
       <div class="container">
@@ -45,7 +47,7 @@
       </div>
       <p class="subtitle">Sample widget build as result of this exercise</p>
     </section>
-
+    
     <section class="development">
       <h2>Development</h2>
       <p>The step-by-step development can be found on <a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754">The introduction to Reactive Programming you've been missing</a>. This post will focus on a few particularities that I've found while implementing it, mostly two:</p>
@@ -70,7 +72,7 @@
       </ul>
       <h3>Creating suggestiong without breaking the pipe</h3>
       <p>In order to resolve this problem, I've converted the pipeline into a stream of clicks from the corresponding remove button - <a href="https://www.learnrxjs.io/operators/transformation/mergemap.html">mergeMap</a> is the operator for that - right after adding a suggestion to the list. To handle the event selector, a bit of string processing was done: we add the name of the user, which is unique, as the id of the li and the button, that way we can handle the removal of it later on.</p>
-
+      
       <h3>Adding new suggestions</h3>
       <p>For the second problem we have created the user removed stream, emitting a new value into it right after removing a list item. A key operator was used in order to keep the system stateless: <a href="https://www.learnrxjs.io/operators/combination/combinelatest.html">combineLatest</a>. The combineLatest operator buffers the latest values emitted by both streams, allowing us to specify a callback to determine which value to emit next.</p>
       <p>With the elements aforementioned, we combined the request with refresh and user removed streams in order to reuse the results of the first call to GitHub API. There is a trick part on doing that though, we need to specify the request stream to be multicasting, otherwise the stream Observable will remain cold and the stream will be invoked at every time it is passed to combine latest - this part was kindly explained to my alter ego by user <a href="https://stackoverflow.com/users/2521865/paulpdaniels">@paulpdaniels</a> in this <a href="https://stackoverflow.com/questions/52718262/why-is-initial-stream-being-triggered-again-after-combinelatest-and-merge-in-thi/52723645#52723645">StackOverflow question.</a></p>
