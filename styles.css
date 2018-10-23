@@ -49,7 +49,7 @@ header img, header h1 {
 }
 
 main {
-  margin-top: 16px;
+  padding-top: 70px;
   width: 40%;
   margin: auto;
   padding-bottom: 2rem;
