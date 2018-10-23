@@ -6,7 +6,7 @@
 html, body {
   margin: 0;
   height: 100%;
-  font-size: 21px;
+  font-size: 14px;
   font-family: 'Roboto', sans-serif;
   line-height: 1.5;
   font-weight: 300;
@@ -38,7 +38,7 @@ header {
 }
 
 .header-content {
-  width: 60%;
+  width: 90%;
   margin: auto;
 }
 
@@ -50,11 +50,23 @@ header img, header h1 {
 
 main {
   padding-top: 70px;
-  width: 40%;
+  width: 90%;
   margin: auto;
   padding-bottom: 2rem;
 }
 
 main h2 {
   margin-top: 1.8rem;
+}
+
+@media (min-width: 992px){
+  body {
+    font-size: 21px;
+  }
+  main {
+    width: 40%;
+  }
+  .header-content {
+    width: 40%;
+  }
 }

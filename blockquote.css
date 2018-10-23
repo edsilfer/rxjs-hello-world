@@ -4,9 +4,10 @@ blockquote{
   color: #555555;
   border-left:8px solid var(--color-primary);
   line-height:1.6;
-  padding:1.2em 30px 1.2em 75px;
+  padding:1.2em 15px 1.2em 40px;
   position: relative;
   background:#f9f9f9;
+  margin: 1em;
 }
 
 blockquote::before{
@@ -27,4 +28,11 @@ blockquote::after{
   font-style: normal;
   font-weight: 700;
   margin-top: 1em;
+}
+
+@media (min-width: 768px){
+  blockquote {
+    padding:1.2em 30px 1.2em 75px;
+    margin: 2em;
+  }
 }
