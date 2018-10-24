@@ -80,7 +80,7 @@ footer {
 }
 
 footer i {
-  font-size: 1.8em;
+  font-size: 2.5em;
   margin: 8px 4px;
 }
 
@@ -121,5 +121,7 @@ footer h2, footer h3, footer p {
     width: 100px;
   }
 
-  
+  footer i {
+    font-size: 1.8em;
+  }
 }
