@@ -16,12 +16,16 @@
 
 .refresh-button {
     margin: 14px;
-    font-size: 12px;
+    font-size: 1em;
     color: white;
     background-color: var(--color-primary);
     padding: 8px;
     border: none;
     border-radius: 5px;
+}
+
+button:focus {
+    outline:0;
 }
 
 .rounded-circle {
@@ -35,7 +39,6 @@
 .container li{
     display: flex;
     justify-content: space-between;
-    background: white;
     height: 0;
     padding: 0px;
     overflow: hidden;
@@ -50,7 +53,7 @@
 }
 
 .container li:hover {
-    background: #fafafa;
+    background-color: #fafafa;
 }
 
 .item-infos-wrapper {
@@ -71,6 +74,7 @@
 .item-button:hover {
     color: white;
     background-color: var(--color-primary);
+    font-weight: 400;
 }
 
 .remove {
@@ -91,6 +95,6 @@
 @media (min-width: 992px){
     .container {
         width: 500px;
-        font-size: 14px;
+        font-size: 16px;
     }
 }
