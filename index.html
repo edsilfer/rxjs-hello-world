@@ -81,16 +81,17 @@
       <p>With the elements aforementioned, we combined the request with refresh and user removed streams in order to reuse the results of the first call to GitHub API. There is a trick part on doing that though, we need to specify the request stream to be multicasting, otherwise the stream Observable will remain cold and the stream will be invoked at every time it is passed to combine latest - this part was kindly explained to my alter ego by user <a href="https://stackoverflow.com/users/2521865/paulpdaniels">@paulpdaniels</a> in this <a href="https://stackoverflow.com/questions/52718262/why-is-initial-stream-being-triggered-again-after-combinelatest-and-merge-in-thi/52723645#52723645">StackOverflow question.</a></p>
 
       <h3>Animating the list</h3>
-      <p>With the widget fully operational, I was missing some cool animation to drive more attention to it. With a very newbie frontend skills, it was a little hard for me to start with this development. This highly changed after reading <a href="https://cssanimation.rocks/list-items/">Animating List Items</a></p>, where each step and many types of animations are described. The basic steps that allows the current animations were:
+      <p>With the widget fully operational, I was missing some cool animation to drive more attention to it. With a very newbie frontend skills, it was a little hard for me to start with this development. This highly changed after reading <a href="https://cssanimation.rocks/list-items/">Animating List Items</a>, where each step and many types of animations are described. The basic steps to create the add/remove animation are:</p>
       <ul>
-        <li>Step 1</li>
-        <li>Step 2</li>
+        <li>Start the <code>li</code> with <code>height 0</code>. Also, set the transtion properties you want: e.g. <code>transition: all 0.25s ease-out</code></li>
+        <li>Create a CSS <code>class</code> (show) that will contain the state of the <code>li</code> after it has been displayed;</li>
+        <li>Wait a short time (10ms) after adding the element to the list and apply the show class to the <code>li</code>. For the remove effect, remove the class and wait for the animation to complete before removing the element from the DOM;</li>
       </ul>
     </section>
     <section class="conslution">
       <h2>Conclusion</h2>
       <p>
-        Creating this widget was a relly fun exercise. 
+        Creating this widget was a relly fun exercise. It was possible to try many concepts related to reactive programming - including the mantra that <i>"everything is a stream"</i>. It is also interesting to think that, with a regular approach, I would have written much more code to achieve the same behavior, not to mention a bunch of variables that would be keeping state all over the component. With this approach, the only state kept is a variable that holds the suggestions that were already made, used to avoid offering the same ones again.
       </p>
     </section>
   </main>
