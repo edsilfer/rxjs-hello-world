@@ -17,18 +17,21 @@
     <div class="header-content">
       <img src="https://cdn-images-1.medium.com/max/1600/1*sXrpvkWUPm1K9zGKhI3MlA.png" width="50" height="50" />
       <h1>Sample RxJS with Github API</h1>
+      <p>by Edgar Fernandes</p>
     </div>
   </header>
   <main>
     <section class="intro">
+      <p>I've decided to write this post to describe my learnings of creating a widget using <a href="https://rxjs-dev.firebaseapp.com/">RxJS</a>. Even though my current area of acting is Java, the methods and strategies here applied can be easily migrated to any reactive implementation. I encourage you to continue reading this post and try these exercises yourself.</p>
       <blockquote>
-        <p>RxJS is a library for <a href="https://en.wikipedia.org/wiki/Reactive_programming">reactive programming</a> using Observables, to make it easier to compose asynchronous or callback-based code. This project is a rewrite of Reactive-Extensions/RxJS with better performance, better modularity, better debuggable call stacks, while staying mostly backwards compatible, with some breaking changes that reduce the API surface</p>
+        <p>RxJS is a library for <a href="https://en.wikipedia.org/wiki/Reactive_programming">reactive programming</a> using
+          Observables, to make it easier to compose asynchronous or callback-based code. This project is a rewrite of
+          Reactive-Extensions/RxJS with better performance, better modularity, better debuggable call stacks, while staying
+          mostly backwards compatible, with some breaking changes that reduce the API surface</p>
         <p class="author"><i><a href="https://rxjs-dev.firebaseapp.com/"><i>Check project page.</i></a></i></p>
       </blockquote>
-      <h2>Purpose</h2>
-      <p>The goal of this post is to describe the learnings involved in the process of creating a widget using <a href="https://rxjs-dev.firebaseapp.com/">RxJS</a>. I've decided to make this example in order to increase my knowledge of <a href="https://en.wikipedia.org/wiki/Reactive_programming">reactive programming</a>. Even though my current area of acting is Java, the methods and strategies here applied can be easily migrated to any reactive implementation, therefore I encourage you to continue reading this post and try these exercises yourself.</p>
       <h2>Goals</h2>
-      <p>The proposed exercise is based on post <a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754">The introduction to Reactive Programming you've been missing</a> written by <a href="https://twitter.com/andrestaltz">Andre Staltz</a>. The idea is to build a Twitter like widget that suggests users to follow. As Twitter closed its API to unauthorized public, <a href="https://developer.github.com/v3/">GitHub API</a> will be used in the place. The requirements are:</p>
+      <p>The proposed exercise is based on post <a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754">The introduction to Reactive Programming you've been missing</a> written by <a href="https://twitter.com/andrestaltz">Andre Staltz</a>. The idea is to build a Twitter like widget that suggests users to follow. As Twitter closed its API to unauthorized public, <a href="https://developer.github.com/v3/">GitHub API</a> will be used as a replacement. The requirements are:</p>
       <ul>
         <li>There must be a constant in the code that allows setting the number of accounts to suggest;</li>
         <li>Each suggestion must display a "remove" button that the user can press if he doesn't like the suggestion;</li>
@@ -53,6 +56,7 @@
       <ul>
         <li>How to handle the creation of suggestions without <i>breaking the pipe</i>?</li>
         <li>How to add a new suggestion after removing an old one?</li>
+        <li>Animating the list</li>
       </ul>
       <p>Before I explain how I've dealt with these problems, let's make a quick review implementation. We have four streams composing this project:</p>
       <ul>
@@ -61,7 +65,7 @@
         <li><b>random user:</b> a combination of user removed and request streams;</li>
         <li><b>user removed:</b> stream of values indicating that a suggestion was removed;</li>
       </ul>
-      <p><b>NOTE: </b>The final consumer for all of the streams is responsible for:</p>
+      <p>The final consumer for all of the streams is responsible for:</p>
       <ul>
         <li>limit the amount of suggestions to process;</li>
         <li>create the suggestion item;</li>
@@ -75,8 +79,33 @@
       <h3>Adding new suggestions</h3>
       <p>For the second problem we have created the user removed stream, emitting a new value into it right after removing a list item. A key operator was used in order to keep the system stateless: <a href="https://www.learnrxjs.io/operators/combination/combinelatest.html">combineLatest</a>. The combineLatest operator buffers the latest values emitted by both streams, allowing us to specify a callback to determine which value to emit next.</p>
       <p>With the elements aforementioned, we combined the request with refresh and user removed streams in order to reuse the results of the first call to GitHub API. There is a trick part on doing that though, we need to specify the request stream to be multicasting, otherwise the stream Observable will remain cold and the stream will be invoked at every time it is passed to combine latest - this part was kindly explained to my alter ego by user <a href="https://stackoverflow.com/users/2521865/paulpdaniels">@paulpdaniels</a> in this <a href="https://stackoverflow.com/questions/52718262/why-is-initial-stream-being-triggered-again-after-combinelatest-and-merge-in-thi/52723645#52723645">StackOverflow question.</a></p>
+
+      <h3>Animating the list</h3>
+      <p>With the widget fully operational, I was missing some cool animation to drive more attention to it. With a very newbie frontend skills, it was a little hard for me to start with this development. This highly changed after reading <a href="https://cssanimation.rocks/list-items/">Animating List Items</a></p>, where each step and many types of animations are described. The basic steps that allows the current animations were:
+      <ul>
+        <li>Step 1</li>
+        <li>Step 2</li>
+      </ul>
+    </section>
+    <section class="conslution">
+      <h2>Conclusion</h2>
+      <p>
+        Creating this widget was a relly fun exercise. 
+      </p>
     </section>
   </main>
+  <footer>
+    <div>
+      <img src="https://media.licdn.com/dms/image/C4D03AQHzba5amrnYZw/profile-displayphoto-shrink_200_200/0?e=1545868800&v=beta&t=IfqPs_CIsZ2JkxZzlncMUXA7K4eb1fF4gTxhLcLPijQ" width="75" height="75" alt="">
+      <p>A Brazilian Software Engineer traveling around the world in search of challenges. He likes to do a bit of everything but his ultimate passion lies with mobile development.</p>
+    </div>
+
+    <div>
+      <img src="https://media.licdn.com/dms/image/C5603AQGBj1OtayzXPg/profile-displayphoto-shrink_800_800/0?e=1545868800&v=beta&t=7iH7RsxGocEkpp1nU4RorNHAe3fi-HD1onPLnoYm4TI" alt="" width="75" height="75">
+      <p>A Brazilian Water Resources Engineer that fell in love with technology, comming to find in the heart of Netherlands her true passion for Front End devleopment.</p>
+
+    </div>
+  </footer>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.4.3/Rx.js"></script>
   <script src="utils.js"></script>

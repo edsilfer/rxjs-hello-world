@@ -70,3 +70,10 @@ main h2 {
     width: 40%;
   }
 }
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: auto;
+}
