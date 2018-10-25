@@ -1,14 +1,19 @@
 const GITHUB_API = "https://api.github.com/users";
+const MAX_SUGGESTIONS = 3;
 
 function main() {
-  // TODO: decouple component
-}
-
-function createRequestStream() {
-  let url = `${GITHUB_API}?since=${randomNumber()}`;
-  return Rx.Observable.of(url)
+  Rx.Observable.of(`${GITHUB_API}?since=${randomNumber()}`)
     .mergeMap(url => Rx.Observable.from(jQuery.getJSON(url)))
-    .publishLast();
+    .flatMap(users => users)
+    .map(user => {
+      return {
+        'header': user.login,
+        'subheader': 'What to put in here?',
+        'thumbnail': user.avatar_url
+      };
+    })
+    .toArray()
+    .subscribe(users => createWidget($('#users'), MAX_SUGGESTIONS, users));
 }
 
-main()
+main();
